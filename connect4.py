@@ -168,7 +168,6 @@ def start_game(players,board,tokens):
             print "Enter 'pause' to save this game, anytime!"
             row_no = None
             col_no = raw_input("Enter the column number: ")
-            int_check = col_no.isdigit() #check if input is number
             if col_no == "pause":
                 # if input is 'pause' then save the current game and end.
                 # pause_save(a,b,c,d)
@@ -176,8 +175,10 @@ def start_game(players,board,tokens):
                 print "The game details have been saved\n"
                 break #break the top "While Loop itself"
             
-            elif int_check: #if user input is number
-                row_no = get_row(col_no, board)
+            row_no = get_row(col_no, board) if col_no.isdigit() else None
+            
+            #elif col_no.isdigit(): #if user input is number
+                # row_no = get_row(col_no, board)
                 #get the correct row no. on the board to insert the token,
                     # if the column is full, "row_no" gets 'None'
 
@@ -185,7 +186,7 @@ def start_game(players,board,tokens):
                 #loop if row_no = False
                 #loop if int_check = False
                 #loop if input is not in range
-            while (int_check is False) or row_no is None or (int(col_no)>= len(board)+1) or (int(col_no) <= 0):
+            while (not col_no.isdigit()) or row_no is None or (int(col_no)>= len(board[0])+1) or (int(col_no) <= 0):
                 print "Invalid input detected!\n"
                 # display some appropriate error messages
                 
@@ -648,7 +649,6 @@ def computer_move(board):
             total_column = len(board[0])
             col_no = randint(0,total_column-1)
             # generate a random number.
-            print "Bot selected a %d column!" % col_no
             
             check = "~" in board[0][col_no]
             # check if the the random column no is full or not.
